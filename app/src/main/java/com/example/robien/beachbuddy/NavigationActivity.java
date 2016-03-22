@@ -116,7 +116,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            json_url = "http://cecs492beachbuddy.site88.net/searchTest.php";;
+            json_url = "http://52.25.144.228/search.php";
         }
 
         @Override

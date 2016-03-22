@@ -43,9 +43,8 @@ public class BackgroundTask extends AsyncTask <String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String acc_reg_url = "http://cecs492beachbuddy.site88.net/reg3.php"; // can use local device ip address (reg3!!!)
-        String class_reg_url = "http://cecs492beachbuddy.site88.net/classreg2.php";  // TBD
-        //String login_url = "http://cecs492beachbuddy.site88.net/login3.php";  // TBD
+        String acc_reg_url = "http://52.25.144.228/reg3.php";
+        String class_reg_url = "http://52.25.144.228/classreg2.php";
         String search_url = "http://cecs492beachbuddy.site88.net/search.php"; // TBD
         String method = params[0];
 
