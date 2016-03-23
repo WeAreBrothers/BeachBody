@@ -49,12 +49,13 @@ public class NavigationActivity extends AppCompatActivity {
 
     Button search;
     EditText searchClass;
-    String JSON_String, idString,studentName;
+    String JSON_String, studentName;
     JSONObject jsonObject;
     JSONArray jsonArray;
     StudentAdapter studentAdapter;
     ListView listView;
-    Student selectedStudent;
+
+    public static Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,26 +82,22 @@ public class NavigationActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //Get name from the row (position) clicked and pass it to search for the facebook profile
-                selectedStudent = (Student)studentAdapter.getItem(position);
+                Student selectedStudent = (Student)studentAdapter.getItem(position);
 
                 //Extract name from row
-                studentName = selectedStudent.getName();
+                String studentName = selectedStudent.getName();
 
                 Toast.makeText(getApplicationContext(), selectedStudent.getName() + " " +
                         selectedStudent.getEmail(), Toast.LENGTH_LONG).show(); // Just to make sure...
 
+                //Get the person's profile (the bs way)
+                profile = Profile.getCurrentProfile(); // MUST BE CORRESPONDING TO THE NAME IN THE ROW!!!
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(profile.getLinkUri().toString()));
+                startActivity(browserIntent);
+
                 //Get the person's profile (the right way)
                 //Intent profileIntent = new Intent(getApplicationContext(), ProfileActivity.class);
                 //startActivity(profileIntent);
-
-                // Get the user's ID to go to their profile
-                //String method = "fetchFbId";
-                //BackgroundTask bt = new BackgroundTask(getApplicationContext());
-                //bt.execute(method, studentName);
-                //Toast.makeText(getApplicationContext(), studentName, Toast.LENGTH_LONG).show();
-
-                getFbId(view);
-
             }
         });
     }
@@ -119,7 +116,7 @@ public class NavigationActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            json_url = "http://52.25.144.228/search.php";
+            json_url = "http://cecs492beachbuddy.site88.net/searchTest.php";;
         }
 
         @Override
@@ -192,85 +189,5 @@ public class NavigationActivity extends AppCompatActivity {
     public void getJSON(View v) {
 
         new SearchBackground().execute();
-    }
-
-    class FetchFbId extends AsyncTask<Void, Void, String> {
-        String fetchId_url;
-        String studentName = selectedStudent.getName();
-
-        @Override
-        protected void onPreExecute() {
-            fetchId_url = "http://52.25.144.228/fetchId.php";
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            try {
-                URL url = new URL(fetchId_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String sData = URLEncoder.encode("studentName", "UTF-8") + "=" + URLEncoder.encode(studentName, "UTF-8");
-                bufferedWriter.write(sData);
-                bufferedWriter.flush();
-                bufferedWriter.close();
-                outputStream.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader((new InputStreamReader(inputStream)));
-                StringBuilder stringBuilder = new StringBuilder();
-                while ((idString = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(idString + "\n");
-                }
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            idString = result;
-            try {
-                jsonObject = new JSONObject(idString);
-                jsonArray = jsonObject.getJSONArray("ID");
-                int count = 0;
-                String ID = "";
-
-                JSONObject JO = jsonArray.getJSONObject(count);
-                ID = JO.getString("sFacebookID"); // fetch the ID from database
-
-                //go to user's profile
-                String URI = "https://www.facebook.com/" + ID;
-                Toast.makeText(getApplicationContext(), ID, Toast.LENGTH_LONG).show();
-
-
-                Intent profileIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URI));
-                startActivity(profileIntent);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            // Go to user's profile
-
-        }
-    }
-
-    public void getFbId(View v) {
-        new FetchFbId().execute();
     }
 }
