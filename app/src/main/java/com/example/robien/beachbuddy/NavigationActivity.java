@@ -56,6 +56,8 @@ public class NavigationActivity extends AppCompatActivity {
     ListView listView;
     Student selectedStudent;
 
+    public static String ID; // to save the facebook ID (will need in another class)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -248,17 +250,17 @@ public class NavigationActivity extends AppCompatActivity {
                 jsonObject = new JSONObject(idString);
                 jsonArray = jsonObject.getJSONArray("ID");
                 int count = 0;
-                String ID = "";
+                ID = "";
 
                 JSONObject JO = jsonArray.getJSONObject(count);
                 ID = JO.getString("sFacebookID"); // fetch the ID from database
 
                 //go to user's profile
-                String URI = "https://www.facebook.com/" + ID;
-                Toast.makeText(getApplicationContext(), ID, Toast.LENGTH_LONG).show();
+                //String URI = "https://www.facebook.com/" + ID;
+                //Intent profileIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URI));
+                //startActivity(profileIntent);
 
-
-                Intent profileIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URI));
+                Intent profileIntent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(profileIntent);
 
             } catch (JSONException e) {
@@ -274,3 +276,4 @@ public class NavigationActivity extends AppCompatActivity {
         new FetchFbId().execute();
     }
 }
+
