@@ -49,12 +49,15 @@ public class NavigationActivity extends AppCompatActivity {
 
     Button search;
     EditText searchClass;
-    String JSON_String, idString,studentName;
+    String JSON_String, idString;
     JSONObject jsonObject;
     JSONArray jsonArray;
     StudentAdapter studentAdapter;
     ListView listView;
     Student selectedStudent;
+
+    static String name, email, studentName, studentEmail;
+
 
     public static String ID; // to save the facebook ID (will need in another class)
 
@@ -87,9 +90,7 @@ public class NavigationActivity extends AppCompatActivity {
 
                 //Extract name from row
                 studentName = selectedStudent.getName();
-
-                Toast.makeText(getApplicationContext(), selectedStudent.getName() + " " +
-                        selectedStudent.getEmail(), Toast.LENGTH_LONG).show(); // Just to make sure...
+                studentEmail = selectedStudent.getEmail();
 
                 //Get the person's profile (the right way)
                 //Intent profileIntent = new Intent(getApplicationContext(), ProfileActivity.class);
@@ -174,7 +175,7 @@ public class NavigationActivity extends AppCompatActivity {
                 jsonObject = new JSONObject(JSON_String);
                 jsonArray = jsonObject.getJSONArray("students");
                 int count = 0;
-                String name, email;
+                ;
                 while(count < jsonArray.length()) {
                     JSONObject JO = jsonArray.getJSONObject(count);
                     name = JO.getString("sName");

@@ -1,5 +1,6 @@
 package com.example.robien.beachbuddy;
 
+import android.content.pm.PackageInstaller;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.widget.ProfilePictureView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
 
-    TextView name, email, gender;
+    TextView name, email;
     Button createGroup, addToGroup, sendMessage, viewProfile;
     private ProfilePictureView profilePictureView;
     URL img_url;
@@ -51,7 +53,6 @@ public class ProfileActivity extends AppCompatActivity {
         profilePictureView = (ProfilePictureView)findViewById(R.id.profilePic);
         name = (TextView)findViewById(R.id.nameText);
         email = (TextView)findViewById(R.id.emailText);
-        gender = (TextView)findViewById(R.id.genderText);
         createGroup = (Button)findViewById(R.id.createGroup);
         createGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,28 +98,9 @@ public class ProfileActivity extends AppCompatActivity {
             profilePictureView.setPresetSize(ProfilePictureView.NORMAL);
             profilePictureView.setVisibility(View.VISIBLE);
 
-            GraphRequest request = GraphRequest.newMeRequest
-                    (AccessToken.getCurrentAccessToken(),
-                            new GraphRequest.GraphJSONObjectCallback() {
-                                @Override
-                                public void onCompleted(JSONObject object, GraphResponse response) {
-                                    try {
-                                        name.setText(object.getString("name"));
-                                        email.setText(object.getString("email"));
-                                        gender.setText(object.getString("gender"));
-                                        name.setVisibility(View.VISIBLE);
-                                        gender.setVisibility(View.VISIBLE);
-                                        email.setVisibility(View.VISIBLE);
+            name.setText(NavigationActivity.studentName);
+            email.setText(NavigationActivity.studentEmail);
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,email,gender");
-            request.setParameters(parameters);
-            request.executeAsync();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -137,21 +119,5 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
-
-    private void setProfileToView(JSONObject jsonObject) {
-        try {
-            name.setText(jsonObject.getString("name"));
-            email.setText(jsonObject.getString("email"));
-            gender.setText(jsonObject.getString("gender"));
-
-            profilePictureView.setPresetSize(ProfilePictureView.NORMAL);
-            profilePictureView.setProfileId(jsonObject.getString("id"));
-            //relLayout.setVisibility(View.INVISIBLE);
-            //infoLayout.setVisibility(View.VISIBLE);
-            //classButt.setVisibility(View.VISIBLE);
-            //searchButt.setVisibility(View.VISIBLE);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }}
 }
 

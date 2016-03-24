@@ -171,7 +171,6 @@ public class LoginActivity extends AppCompatActivity {
         String method = "register";
         BackgroundTask bt = new BackgroundTask(this);
         bt.execute(method, sName, sEmail, sFbId);
-        Toast.makeText(this, sName + " " + sEmail + " " + sFbId, Toast.LENGTH_LONG).show();
     }
 
 

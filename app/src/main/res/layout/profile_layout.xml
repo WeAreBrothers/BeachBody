@@ -19,6 +19,7 @@
         android:textSize="20dp"
         android:layout_below="@+id/profilePic"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginTop="78dp" />
 
     <TextView
@@ -27,51 +28,40 @@
         android:text="New Text"
         android:id="@+id/emailText"
         android:textSize="20dp"
+        android:gravity="center"
         android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/nameText"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/genderText"
-        android:textSize="20dp"
-        android:layout_below="@+id/emailText"
-        android:layout_alignStart="@+id/emailText"
-        android:layout_marginTop="20dp" />
+        android:layout_alignStart="@+id/sendInvite" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Group"
         android:id="@+id/createGroup"
-        android:layout_marginTop="42dp"
-        android:layout_below="@+id/genderText"
-        android:layout_toStartOf="@+id/genderText" />
+        android:layout_above="@+id/sendInvite"
+        android:layout_alignStart="@+id/viewProfile" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send Group Invite"
         android:id="@+id/sendInvite"
-        android:layout_below="@+id/createGroup"
-        android:layout_alignStart="@+id/createGroup" />
+        android:layout_above="@+id/sendMessage"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send Message"
         android:id="@+id/sendMessage"
-        android:layout_alignTop="@+id/createGroup"
-        android:layout_toEndOf="@+id/genderText" />
+        android:layout_above="@+id/viewProfile"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Profile"
         android:id="@+id/viewProfile"
-        android:layout_alignTop="@+id/sendInvite"
-        android:layout_alignStart="@+id/sendMessage" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
