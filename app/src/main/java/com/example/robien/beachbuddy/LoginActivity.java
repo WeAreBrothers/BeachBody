@@ -64,6 +64,11 @@ public class LoginActivity extends AppCompatActivity {
     private Button searchButt;
     private String sName, sEmail, sFbId;
 
+    //check logged in state
+     public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
+    }
 
 
     @Override
@@ -71,6 +76,22 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
+        
+                //Check if user is currently logged in
+        if (AccessToken.getCurrentAccessToken() != null && com.facebook.Profile.getCurrentProfile() != null){
+            //status is logged in
+            loginButton.setVisibility(View.VISIBLE);
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//log out
+                    LoginManager.getInstance().logOut();
+                    isLoggedIn();
+                }
+            });
+        }
+
+        
         setContentView(R.layout.login_layout);
         info = (TextView) findViewById(R.id.info);
         try {
