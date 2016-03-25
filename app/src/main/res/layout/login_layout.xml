@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/beachbud"
+        android:background="@drawable/loginscreenpic"
         android:id="@+id/layout_info1"
         android:visibility="visible">
     </LinearLayout>

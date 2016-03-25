@@ -75,7 +75,6 @@ public class RegClassActivity extends AppCompatActivity {
         bt.execute(method, cid, cname, cyear, iLname, iFname);
         finish();
     }
-
     public void goToMainPage(View view) {
         Intent goToMainPageIntent = new Intent(this,NavigationActivity.class);
         startActivity(goToMainPageIntent);
